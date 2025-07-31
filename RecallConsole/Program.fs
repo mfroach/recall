@@ -8,9 +8,11 @@ let main args =
         File.WriteAllText("testCSV.csv", "NOTE, TAGS, DATE")
         ()
     if Array.isEmpty(args) then
-        RecallLib.Library.editorNote ()
+        Library.editorNote ()
         1
     else
-        let entry = RecallLib.Library.createEntry args
-        RecallLib.Library.insertEntry entry
+        let entry = Library.createEntry args
+        async {
+            Library.insertEntry entry
+        }
         0
