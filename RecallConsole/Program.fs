@@ -11,8 +11,8 @@ let main args =
         Library.editorNote ()
         1
     else
-        let entry = Library.createEntry args
         async {
-            Library.insertEntry entry
+            let entry = Library.createEntry args
+            Library.run Library.insertEntry
         }
         0

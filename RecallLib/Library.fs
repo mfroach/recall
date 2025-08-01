@@ -14,9 +14,9 @@ module Library =
     let run f = DbCall.Run(createConnection, f)
 
     type Entry = {
-        note: string
-        tags: string array
-        date: DateTime
+        note : string
+        tags : string array
+        date : DateTime
     }
 
     let editorNote () =
@@ -26,14 +26,18 @@ module Library =
     // getting env vars in windows is probably a pain
 
     let createEntry args =
-        let note: string = Array.get args 0
         let tags: string = Array.get args 1
-        let date: DateTime = System.DateTime.Now
-        1
+        let tagsArr = tags.Trim().Split(",")
+        let entry:Entry = {
+            note = Array.get args 0
+            tags = tagsArr
+            date = System.DateTime.Now
+        }
+        entry
 
 
-    let insertEntry (entry) =
-        query.Sql<int, Entry>(
+    let insertEntry entry =
+        query.Sql<Entry, string>(
             "insert into notes
             (note, tags, date)
             values (@note, @tags, @date);"
