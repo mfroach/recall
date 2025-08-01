@@ -1,5 +1,7 @@
 ﻿namespace RecallLib
 
+open DbFun.Core.Builders
+
 module Library =
     open System
     open System.Data
@@ -8,7 +10,7 @@ module Library =
     open DbFun.Core.Builders
     open DbFun.Core.Sqlite
 
-    let createConnection (): IDbConnection = new SQLiteConnection(@"test.sqlite")
+    let createConnection (): IDbConnection = new SQLiteConnection(@"Data Source=test.sqlite")
     let defaultConfig: QueryConfig<unit> = QueryConfig.Default(createConnection)
     let query = QueryBuilder(defaultConfig)
     let run f = DbCall.Run(createConnection, f)
@@ -31,14 +33,16 @@ module Library =
         let entry:Entry = {
             note = Array.get args 0
             tags = tagsArr
-            date = System.DateTime.Now
+            date = DateTime.Now
         }
         entry
 
 
-    let insertEntry entry =
-        query.Sql<Entry, string>(
+    let insertEntry =
+        query.Sql(
             "insert into notes
             (note, tags, date)
-            values (@note, @tags, @date);"
+            values (@note, @tags, @date);",
+            Params.Record<Entry>(),
+            Results.Int ""
         )
