@@ -14,4 +14,8 @@
     <ProjectReference Include="..\RecallLib\RecallLib.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
+
 </Project>

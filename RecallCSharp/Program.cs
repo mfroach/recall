@@ -5,6 +5,7 @@ using RecallCSharp;
 class Program {
     static void Main() {
         var db = new DB();
+        db.InitializeDatabase();
         var entry = CreateEntry();
         db.RunQuery(db.QueryBuilder("insert", entry));
     }
